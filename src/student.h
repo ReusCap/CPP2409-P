@@ -13,6 +13,7 @@ private:
 public:
     Student();
     Student(string name, int tolerance);
-    
+    string getName();
+    int getTolerance();
     
 };
