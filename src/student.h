@@ -15,5 +15,6 @@ public:
     Student(string name, int tolerance);
     string getName();
     int getTolerance();
+    void inc_glasses();
     
 };
