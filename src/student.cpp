@@ -18,9 +18,14 @@ string Student::getName(){
 int Student::getTolerance(){
     return glasses;
 }
-// 한잔씩 마시게 하고, 현재 마신 잔 수 출력.
+// 한잔씩 마시게 하고, 현재까지 마신 잔 수 출력.
 void Student::inc_glasses(){
     glasses+=1;
     cout << glasses << endl;
 }
+
+void Student::set_aptNum(int n1, int n2) {
+        aptNum.push_back(n1);
+        aptNum.push_back(n2);
+    }
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 class Student{
@@ -10,11 +11,17 @@ private:
     const int tolerance;
     // 마신 술잔 개수
     int glasses;
+    // APT게임에서 배정받을 숫자vector
+    vector<int> aptNum;
+
 public:
     Student();
     Student(string name, int tolerance);
     string getName();
     int getTolerance();
     void inc_glasses();
+
+    void set_aptNum(int n1, int n2);
+
     
 };

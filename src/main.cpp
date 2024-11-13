@@ -2,9 +2,11 @@
 #include <string>
 #include <vector>
 #include "student.h"
+#include <algorithm>
+#include <random>
 using namespace std;
 
-void APT();
+void APT(const vector<Student> students,int &Turn);
 void Three_Six_Nine();
 void Baskin_Robbins_31();
 
@@ -47,11 +49,11 @@ int main(){
         cin >> choice;
 
         if (choice == "APT") {
-            APT();   // 아파트 게임 시작
+            APT(students, Turn);       // 아파트 게임 시작
         } else if (choice == "369") {
-            Three_Six_Nine(); // 369게임 시작
+            Three_Six_Nine();          // 369게임 시작
         } else if (choice == "BR31") {
-            Baskin_Robbins_31(); // 베스킨 라빈스 시작
+            Baskin_Robbins_31();       // 베스킨 라빈스 시작
         } else {
             // "병신샷~ 병신샷~ 다시!"라고 하면서 말실수 한 사람이 술 한잔 마시고 다시 게임 골라서 시작.
             cout << "Fool shot! Fool shot! One more time!" << endl;
@@ -62,7 +64,26 @@ int main(){
     
     return 0;
 }
-void APT(){
+void APT(vector<Student> students, int &Turn){
+    int floor;
+    cout << "APT~ APT~ APT~ APT~" << endl;
+    cout << "Which floor?: " ;
+    cin >> floor;
+
+    // 미리 숫자들 생성
+    vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    // 난수 생성 엔진 초기화
+    // 난수 생성 엔진 객체 g
+    random_device rd;
+    mt19937 g(rd());
+    // algorithm의 shuffle함수로 숫자들 섞어놓는다. 
+    shuffle(numbers.begin(), numbers.end(), g);
+    //for문과 set_aptNum()함수로 숫자 두개 저장
+    for (int i = 0; i < students.size(); ++i) {
+        students[i].set_aptNum(numbers[i * 2], numbers[i * 2 + 1]);
+    }
+
+
 
 }
 void Three_Six_Nine(){
