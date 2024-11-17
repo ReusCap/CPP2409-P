@@ -145,6 +145,7 @@ int find_nameIndex(vector<Student>& students, const string& name) {
     return -1; // 찾지 못한 경우 -1 반환
 }
 // 아래 두 게임은 구현 아직 못했다.
+// 아직 실행이 안된다고 출력
 void Three_Six_Nine(){
     cout << "Three_Six_Nine game is not yet implemented." << endl;
 }

@@ -24,12 +24,12 @@ void Student::inc_glasses(){
     cout << "have a shot"  << endl;
     cout << name << " has drunk "<< glasses << " glasses\n" << endl;
 }
-
+// 객체의 aptNum 벡터에 n1과 n2 push하는 함수
 void Student::set_aptNum(int n1, int n2) {
         aptNum.push_back(n1);
         aptNum.push_back(n2);
     }
-
+// AptNum을 출력하는 함수
 vector<int> Student::getAptNum() {
     return aptNum;
 }
