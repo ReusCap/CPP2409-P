@@ -21,7 +21,8 @@ int Student::getTolerance(){
 // 한잔씩 마시게 하고, 현재까지 마신 잔 수 출력.
 void Student::inc_glasses(){
     glasses+=1;
-    cout << glasses << endl;
+    cout << "have a shot"  << endl;
+    cout << name << " has drunk "<< glasses << " glasses\n" << endl;
 }
 
 void Student::set_aptNum(int n1, int n2) {
@@ -29,3 +30,6 @@ void Student::set_aptNum(int n1, int n2) {
         aptNum.push_back(n2);
     }
 
+vector<int> Student::getAptNum() {
+    return aptNum;
+}

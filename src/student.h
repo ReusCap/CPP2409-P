@@ -22,6 +22,6 @@ public:
     void inc_glasses();
 
     void set_aptNum(int n1, int n2);
-
+    vector<int> getAptNum();
     
 };

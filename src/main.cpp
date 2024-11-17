@@ -6,9 +6,11 @@
 #include <random>
 using namespace std;
 
-void APT(const vector<Student> students,int &Turn);
+void APT(vector<Student>& students,int &Turn);
 void Three_Six_Nine();
 void Baskin_Robbins_31();
+void printfloor_out(vector<Student>& students, int floor, int &Turn);
+int find_nameIndex(vector<Student>& students, const string& name);
 
 int main(){
     // 벡터로 학생 객체를 저장
@@ -64,11 +66,19 @@ int main(){
     
     return 0;
 }
-void APT(vector<Student> students, int &Turn){
+
+void APT(vector<Student>& students, int &Turn){
     int floor;
-    cout << "APT~ APT~ APT~ APT~" << endl;
-    cout << "Which floor?: " ;
-    cin >> floor;
+    cout << "APT~ APT~ APT~ APT~" << endl;      // 인트로 : 아파트~ 아파트~ 아파트~ 아파트~
+     do {
+        cout << "Which floor?(1 to 20 floors only): "; // 몇층?(1~20층까지)
+        cin >> floor;
+
+        // 입력값 검증
+        if (floor < 1 || floor > 20) {
+            cout << "Invalid input! Please enter a floor between 1 and 20." << endl;
+        }
+    } while (floor < 1 || floor > 20);
 
     // 미리 숫자들 생성
     vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
@@ -78,17 +88,67 @@ void APT(vector<Student> students, int &Turn){
     mt19937 g(rd());
     // algorithm의 shuffle함수로 숫자들 섞어놓는다. 
     shuffle(numbers.begin(), numbers.end(), g);
-    //for문과 set_aptNum()함수로 숫자 두개 저장
+
+    // for문과 set_aptNum()함수로 숫자 두개 저장
+    // ex) Lisa(2,4), Jenny(1,5) ...
     for (int i = 0; i < students.size(); ++i) {
         students[i].set_aptNum(numbers[i * 2], numbers[i * 2 + 1]);
     }
-
+    printfloor_out(students,floor,Turn);
+    students[Turn].inc_glasses();
 
 
 }
-void Three_Six_Nine(){
 
+// 층 순서대로 출력하며 탈락시키는 함수
+void printfloor_out(vector<Student>& students, int floor, int &Turn) {
+    // 층 번호와 학생 이름을 저장할 벡터
+    vector<pair<int, string>> floorAssignments;
+
+    // 학생들의 aptNum을 기반으로 floorAssignments를 채움
+    for (auto& student : students) {
+        // 그 객체의 aptNum을 순회로 각각 push한다. 
+        for (int apt : student.getAptNum()) {
+            floorAssignments.push_back({apt, student.getName()});
+        }
+    }
+    // 층 번호를 기준으로 정렬 (출력을 순서대로 하기 위해)
+    // ex) {(1, "Jenny"), (2, "Jisoo"), (3, "Jenny"), (4, "Rose"), (5, "Taeeun")...}
+    sort(floorAssignments.begin(), floorAssignments.end());
+
+    // 현재 층수 설정
+    int currentFloor = 1;
+    while (true) {
+        // 12층을 초과하더라도 1층에 있던 학생이 13층으로 올라가는 방식
+        int index = (currentFloor - 1) % 12; // 0부터 시작하는 인덱스
+        auto [assignedFloor, name] = floorAssignments[index];
+
+        cout << name << ": " << currentFloor << " floor" << endl;
+
+        // 목표 층수에 도달했으면 탈락 처리 후 종료
+        if (currentFloor == floor) {
+            cout << name << " is out of the game" << endl;
+            Turn = find_nameIndex(students, name);
+            return; // 함수 종료
+        }
+
+        currentFloor++; // 다음 층으로 진행
+    }
+}
+// name에 해당하는 students벡터의 인덱스 값 반환하는 함수 
+int find_nameIndex(vector<Student>& students, const string& name) {
+    for (int i = 0; i < students.size(); i++) {
+        if (students[i].getName() == name) {
+            return i; // 찾은 경우 인덱스 반환
+        }
+    }
+    return -1; // 찾지 못한 경우 -1 반환
+}
+// 아래 두 게임은 구현 아직 못했다.
+void Three_Six_Nine(){
+    cout << "Three_Six_Nine game is not yet implemented." << endl;
 }
 void Baskin_Robbins_31(){
+    cout << "Baskin_Robbins_31 game is not yet implemented." << endl;
 
 }
