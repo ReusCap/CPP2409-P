@@ -11,11 +11,11 @@ Student::Student(string name, int tolerance)
     : name(name), glasses(0), tolerance(tolerance) {}
 
 // 이름 출력하는 함수
-string Student::getName(){
+string Student::GetName(){
     return name;
 }
 // 주량 출력하는 함수
-int Student::getTolerance(){
+int Student::GetTolerance(){
     return glasses;
 }
 // 한잔씩 마시게 하고, 현재까지 마신 잔 수 출력.

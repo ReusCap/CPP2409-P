@@ -17,8 +17,8 @@ private:
 public:
     Student();
     Student(string name, int tolerance);
-    string getName();
-    int getTolerance();
+    string GetName();
+    int GetTolerance();
     void inc_glasses();
 
     void set_aptNum(int n1, int n2);

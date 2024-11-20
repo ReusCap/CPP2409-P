@@ -7,7 +7,7 @@
 using namespace std;
 
 void APT(vector<Student>& students,int &Turn);
-void Three_Six_Nine();
+void Three_Six_Nine(vector<Student>& students, int &Turn);
 void Baskin_Robbins_31();
 void printfloor_out(vector<Student>& students, int floor, int &Turn);
 int find_nameIndex(vector<Student>& students, const string& name);
@@ -45,15 +45,15 @@ int main(){
     while(game_Running){
         string choice;
         // OO가 좋아하는 랜덤 게임! 무슨 게임! 게임 스타트!
-        cout << students[Turn].getName() << "'s favorite random game! Which game! Game start!" << endl;
+        cout << students[Turn].GetName() << "'s favorite random game! Which game! Game start!" << endl;
         // OO의 게임 선택
-        cout << students[Turn].getName() << "'s choice: ";
+        cout << students[Turn].GetName() << "'s choice: ";
         cin >> choice;
 
         if (choice == "APT") {
             APT(students, Turn);       // 아파트 게임 시작
         } else if (choice == "369") {
-            Three_Six_Nine();          // 369게임 시작
+            Three_Six_Nine(students, Turn);    // 369게임 시작
         } else if (choice == "BR31") {
             Baskin_Robbins_31();       // 베스킨 라빈스 시작
         } else {
@@ -109,7 +109,7 @@ void printfloor_out(vector<Student>& students, int floor, int &Turn) {
     for (auto& student : students) {
         // 그 객체의 aptNum을 순회로 각각 push한다. 
         for (int apt : student.getAptNum()) {
-            floorAssignments.push_back({apt, student.getName()});
+            floorAssignments.push_back({apt, student.GetName()});
         }
     }
     // 층 번호를 기준으로 정렬 (출력을 순서대로 하기 위해)
@@ -138,7 +138,7 @@ void printfloor_out(vector<Student>& students, int floor, int &Turn) {
 // name에 해당하는 students벡터의 인덱스 값 반환하는 함수 
 int find_nameIndex(vector<Student>& students, const string& name) {
     for (int i = 0; i < students.size(); i++) {
-        if (students[i].getName() == name) {
+        if (students[i].GetName() == name) {
             return i; // 찾은 경우 인덱스 반환
         }
     }
@@ -146,8 +146,40 @@ int find_nameIndex(vector<Student>& students, const string& name) {
 }
 // 아래 두 게임은 구현 아직 못했다.
 // 아직 실행이 안된다고 출력
-void Three_Six_Nine(){
-    cout << "Three_Six_Nine game is not yet implemented." << endl;
+void Three_Six_Nine(vector<Student>& students, int &Turn) {
+    cout << "369! 369! 369! 369!" << endl;
+
+    int currentNumber = 1; // 게임 시작 숫자
+    while (true) {
+        // 현재 차례인 플레이어
+        string currentPlayer = students[Turn].GetName();
+        cout << currentPlayer << "'s turn: ";
+
+        string input;
+        cin >> input;
+
+        // 현재 숫자에 3, 6, 9가 몇 번 포함되어 있는지 확인
+        int clapCount = 0;
+        for (char c : to_string(currentNumber)) {
+            if (c == '3' || c == '6' || c == '9') {
+                clapCount++;
+            }
+        }
+
+        // 박수 또는 숫자 입력 검증
+        // 틀린 입력(3,6,9가 포함되어 있는데 C를 안외친 경우, 3,6,9가 포함 안되어있는데, input이 currentNumber가 아닌경우)
+        // string생성자로 string(3,'C')면 "CCC"가 출력되도록 한다.
+        if ((clapCount > 0 && input != string(clapCount, 'C')) || (clapCount == 0 && input != to_string(currentNumber))) {
+            cout << "Wrong! Fool shot! Fool shot! One more time!" << endl;
+            students[Turn].inc_glasses();
+            break;
+        // 올바른 입력
+        } else {
+            currentNumber++; // 다음 숫자로 진행
+            // 다음 플레이어로 차례 변경
+            Turn = (Turn + 1) % students.size();
+        }
+    }
 }
 void Baskin_Robbins_31(){
     cout << "Baskin_Robbins_31 game is not yet implemented." << endl;
