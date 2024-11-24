@@ -19,17 +19,17 @@ int Student::GetTolerance(){
     return glasses;
 }
 // 한잔씩 마시게 하고, 현재까지 마신 잔 수 출력.
-void Student::inc_glasses(){
+void Student::IncGlasses(){
     glasses+=1;
     cout << "have a shot"  << endl;
     cout << name << " has drunk "<< glasses << " glasses\n" << endl;
 }
 // 객체의 aptNum 벡터에 n1과 n2 push하는 함수
-void Student::set_aptNum(int n1, int n2) {
-        aptNum.push_back(n1);
-        aptNum.push_back(n2);
+void Student::SetAptNum(int n1, int n2) {
+        apt_num.push_back(n1);
+        apt_num.push_back(n2);
     }
 // AptNum을 출력하는 함수
-vector<int> Student::getAptNum() {
-    return aptNum;
+vector<int> Student::GetAptNum() {
+    return apt_num;
 }

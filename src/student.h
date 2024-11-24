@@ -12,16 +12,16 @@ private:
     // 마신 술잔 개수
     int glasses;
     // APT게임에서 배정받을 숫자vector
-    vector<int> aptNum;
+    vector<int> apt_num;
 
 public:
     Student();
     Student(string name, int tolerance);
     string GetName();
     int GetTolerance();
-    void inc_glasses();
+    void IncGlasses();
 
-    void set_aptNum(int n1, int n2);
-    vector<int> getAptNum();
+    void SetAptNum(int n1, int n2);
+    vector<int> GetAptNum();
     
 };

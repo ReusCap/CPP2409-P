@@ -59,7 +59,7 @@ int main(){
         } else {
             // "병신샷~ 병신샷~ 다시!"라고 하면서 말실수 한 사람이 술 한잔 마시고 다시 게임 골라서 시작.
             cout << "Fool shot! Fool shot! One more time!" << endl;
-            students[Turn].inc_glasses();
+            students[Turn].IncGlasses();
             continue;
         }
     }
@@ -92,10 +92,10 @@ void APT(vector<Student>& students, int &Turn){
     // for문과 set_aptNum()함수로 숫자 두개 저장
     // ex) Lisa(2,4), Jenny(1,5) ...
     for (int i = 0; i < students.size(); ++i) {
-        students[i].set_aptNum(numbers[i * 2], numbers[i * 2 + 1]);
+        students[i].SetAptNum(numbers[i * 2], numbers[i * 2 + 1]);
     }
     printfloor_out(students,floor,Turn);
-    students[Turn].inc_glasses();
+    students[Turn].IncGlasses();
 
 
 }
@@ -108,7 +108,7 @@ void printfloor_out(vector<Student>& students, int floor, int &Turn) {
     // 학생들의 aptNum을 기반으로 floorAssignments를 채움
     for (auto& student : students) {
         // 그 객체의 aptNum을 순회로 각각 push한다. 
-        for (int apt : student.getAptNum()) {
+        for (int apt : student.GetAptNum()) {
             floorAssignments.push_back({apt, student.GetName()});
         }
     }
@@ -144,14 +144,16 @@ int find_nameIndex(vector<Student>& students, const string& name) {
     }
     return -1; // 찾지 못한 경우 -1 반환
 }
-// 아래 두 게임은 구현 아직 못했다.
-// 아직 실행이 안된다고 출력
+
+// 369 게임 실행 함수
 void Three_Six_Nine(vector<Student>& students, int &Turn) {
+    // 인트로 출력
     cout << "369! 369! 369! 369!" << endl;
 
-    int currentNumber = 1; // 게임 시작 숫자
+    // 게임 시작 숫자 설정
+    int currentNumber = 1;
     while (true) {
-        // 현재 차례인 플레이어
+        // 현재 차례인 플레이어 출력
         string currentPlayer = students[Turn].GetName();
         cout << currentPlayer << "'s turn: ";
 
@@ -171,7 +173,7 @@ void Three_Six_Nine(vector<Student>& students, int &Turn) {
         // string생성자로 string(3,'C')면 "CCC"가 출력되도록 한다.
         if ((clapCount > 0 && input != string(clapCount, 'C')) || (clapCount == 0 && input != to_string(currentNumber))) {
             cout << "Wrong! Fool shot! Fool shot! One more time!" << endl;
-            students[Turn].inc_glasses();
+            students[Turn].IncGlasses();
             break;
         // 올바른 입력
         } else {
@@ -181,6 +183,7 @@ void Three_Six_Nine(vector<Student>& students, int &Turn) {
         }
     }
 }
+// 아직 구현하지 못했다는 문구 출력
 void Baskin_Robbins_31(){
     cout << "Baskin_Robbins_31 game is not yet implemented." << endl;
 
