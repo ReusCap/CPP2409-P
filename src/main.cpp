@@ -76,7 +76,7 @@ void APT(vector<Student>& students, int &Turn){
 
         // 입력값 검증
         if (floor < 1 || floor > 20) {
-            cout << "Invalid input! Please enter a floor between 1 and 20." << endl;
+            cout << "Please enter a floor between 1 and 20." << endl;
         }
     } while (floor < 1 || floor > 20);
 
@@ -149,7 +149,17 @@ int find_nameIndex(vector<Student>& students, const string& name) {
 void Three_Six_Nine(vector<Student>& students, int &Turn) {
     // 인트로 출력
     cout << "369! 369! 369! 369!" << endl;
-
+    // 방향 설정    
+    string direction;
+    // 방향 입력 (오른쪽이나 왼쪽)
+    cout << "Which direction? (right or left): ";
+    cin >> direction;
+    // 잘못된 방향을 말할 경우 술을 마시고 다시 게임 시작하도록 설정
+    if (direction != "right" && direction != "left"){
+        cout << "Fool shot! Fool shot! One more time!" << endl;
+        students[Turn].IncGlasses();
+        return;
+    }
     // 게임 시작 숫자 설정
     int currentNumber = 1;
     while (true) {
@@ -179,7 +189,14 @@ void Three_Six_Nine(vector<Student>& students, int &Turn) {
         } else {
             currentNumber++; // 다음 숫자로 진행
             // 다음 플레이어로 차례 변경
-            Turn = (Turn + 1) % students.size();
+            // 오른쪽 방향이면 다음 인덱스 사람 차례가 되게 함
+            if (direction == "right"){
+                Turn = (Turn + 1) % students.size();
+            // 왼쪽 방향이면 이전 인덱스 사람 차례가 되게 함
+            }else if(direction == "left"){
+                Turn = (students.size() + (Turn - 1)) % students.size();
+            }
+            
         }
     }
 }
