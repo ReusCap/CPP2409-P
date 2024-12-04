@@ -37,8 +37,8 @@ int main(){
         "Number 7: 7\n  "
         "Number 13: C\n  "
         "Number 33: CC\n " << endl;
-    // BR21게임 설명 출력
-    cout << "3. BR21 game: In this game, participants take turns and count sequentially from 1 to 31. On each turn, \n "
+    // BR31게임 설명 출력
+    cout << "3. BR31 game: In this game, participants take turns and count sequentially from 1 to 31. On each turn, \n "
         "a player can call out between 1 to 3 consecutive numbers. The player who has to say 31 loses the game.\n" << endl;
 
     int turn = 0;
@@ -204,8 +204,21 @@ void ThreeSixNine(vector<Student>& students, int &turn) {
         }
     }
 }
-// 아직 구현하지 못했다는 문구 출력
-void BaskinRobbins31(){
-    cout << "Baskin_Robbins_31 game is not yet implemented." << endl;
+// 베스킨라빈스31게임 구현
+void BaskinRobbins31(vector<Student>& students, int &turn){
+    // 인트로 출력
+    cout << "Baskin Robbins thirty one! Baskin Robbins thirty one!" << endl;
+    // 방향 설정    
+    string direction;
+    // 방향 입력 (오른쪽이나 왼쪽)
+    cout << "Which direction? (right or left): ";
+    cin >> direction;
+    // 잘못된 방향을 말할 경우 술을 마시고 다시 게임 시작하도록 설정
+    if (direction != "right" && direction != "left"){
+        cout << "Fool shot! Fool shot! One more time!" << endl;
+        // 방향 이상하게 말했으면 술 마시기
+        students[turn].IncGlasses();
+        return;
+    }
 
 }
