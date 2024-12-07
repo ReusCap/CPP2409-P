@@ -8,7 +8,7 @@ using namespace std;
 
 void APT(vector<Student>& students,int &turn);
 void ThreeSixNine(vector<Student>& students, int &turn);
-void BaskinRobbins31();
+void BaskinRobbins31(vector<Student>& students, int &turn);
 void PrintFloorOut(vector<Student>& students, int floor, int &turn);
 int FindNameIndex(vector<Student>& students, const string& name);
 
@@ -56,7 +56,7 @@ int main(){
         } else if (choice == "369") {
             ThreeSixNine(students, turn);    // 369게임 시작
         } else if (choice == "BR31") {
-            BaskinRobbins31();       // 베스킨 라빈스 시작
+            BaskinRobbins31(students, turn);       // 베스킨 라빈스 시작
         } else {
             // "병신샷~ 병신샷~ 다시!"라고 하면서 말실수 한 사람이 술 한잔 마시고 다시 게임 골라서 시작.
             cout << "Fool shot! Fool shot! One more time!" << endl;
@@ -220,5 +220,73 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
         students[turn].IncGlasses();
         return;
     }
+    int current_number = 1; // 시작 숫자
+    while (true) {
+        // 현재 플레이어 정보
+        string current_player = students[turn].GetName();
+        cout << current_player << "'s turn: ";
+        // 입력받기
+        string input;
+        // 한 줄로 입력받기 위해 getline사용
+        // \n같은 문자 지우기 위해 ws조건도 추가
+        getline(cin >> ws, input);
 
+        // 넘버 벡터 선언
+        vector<int> numbers;
+        string temp = "";
+        // 반복자 사용 
+        // ex) "1 2 3"을 ("1", " ", "2", " ", "3")으로 분리
+        for (char ch : input) {
+            // ch가 " "이면 temp에 들어있는 숫자 까지 numbers벡터에 push하고 temp를 clear한다.
+            if (ch == ' ') {
+                if (!temp.empty()) {
+                    numbers.push_back(stoi(temp));
+                    temp.clear();
+                }
+            // ch에 "숫자"가 들어있으면 temp에 추가
+            } else {
+                temp += ch;
+            }
+        }
+        // 마지막에 남은 숫자 numbers벡터에 push_back해주기
+        if (!temp.empty()) {
+            numbers.push_back(stoi(temp));
+        }
+
+        // 1 ~ 3개의 숫자만 입력했는지 확인
+        // 3개보다 많이 숫자 부를 경우 탈락하고 술마시기
+        if (numbers.size() < 1 || numbers.size() > 3) {
+            cout << "Fool shot! Fool shot! You can only call 1 to 3 numbers!" << endl;
+            students[turn].IncGlasses();
+            return;
+        }
+
+        // 
+        for (int num : numbers) {
+            // 현재 숫자에 대응하는 알맞은 숫자 말 못했으면 탈락시킨다.
+            if (num != current_number) {
+                cout << "Fool shot! Fool shot! Wrong number!" << endl;
+                students[turn].IncGlasses();
+                return;
+            }
+
+            // 31을 외치게 될 경우 탈락시킨다.
+            if (current_number >= 31) {
+                cout << endl << "Game over! " << current_player << " lost!" << endl;
+                students[turn].IncGlasses();
+                return;
+            }
+            // current_number 증가
+            current_number++;
+        }
+
+        // 방향에 따라 턴 변경
+        // 오른쪽일 경우 백터 인덱스 순서대로
+        if (direction == "right") {
+            turn = (turn + 1) % students.size();
+        // 왼쪽일 경우 벡터 인덱스 반대 순서대로
+        } else if (direction == "left") {
+            turn = (students.size() + (turn - 1)) % students.size();
+        }
+    }
 }

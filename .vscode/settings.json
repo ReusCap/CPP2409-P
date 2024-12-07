@@ -5,6 +5,8 @@
         "xstring": "cpp",
         "vector": "cpp",
         "stdexcept": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "iosfwd": "cpp",
+        "string": "cpp"
     }
 }
