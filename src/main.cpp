@@ -21,7 +21,8 @@ int main(){
         Student("Jisoo",7), // 지수
         Student("Rose",2),  // 로제
         Student("Bruno",3), // 브루노 마스
-        Student("Taeeun",4) // 태은
+        Student("Taeeun",4), // 태은
+        Student("Misoo",5)  // 미수
     };
     // 게임 설명 출력
     cout << "\n<Game Select>" << endl;
@@ -37,8 +38,8 @@ int main(){
         "Number 7: 7\n  "
         "Number 13: C\n  "
         "Number 33: CC\n " << endl;
-    // BR31게임 설명 출력
-    cout << "3. BR31 game: In this game, participants take turns and count sequentially from 1 to 31. On each turn, \n "
+    // BaskinRobbins31게임 설명 출력
+    cout << "3. BaskinRobbins31 game: In this game, participants take turns and count sequentially from 1 to 31. On each turn, \n "
         "a player can call out between 1 to 3 consecutive numbers. The player who has to say 31 loses the game.\n" << endl;
 
     int turn = 0;
@@ -55,7 +56,7 @@ int main(){
             APT(students, turn);       // 아파트 게임 시작
         } else if (choice == "369") {
             ThreeSixNine(students, turn);    // 369게임 시작
-        } else if (choice == "BR31") {
+        } else if (choice == "BaskinRobbins31") {
             BaskinRobbins31(students, turn);       // 베스킨 라빈스 시작
         } else {
             // "병신샷~ 병신샷~ 다시!"라고 하면서 말실수 한 사람이 술 한잔 마시고 다시 게임 골라서 시작.
@@ -80,9 +81,14 @@ void APT(vector<Student>& students, int &turn){
             cout << "Please enter a floor between 1 and 20." << endl;
         }
     } while (floor < 1 || floor > 20);
-
-    // 미리 숫자들 생성
-    vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    
+    // 인당 숫자 2개씩 할당 받아야 하니까 학생 수 2배만큼 숫자 vector에 생성
+    int size = students.size();
+    int numsize = size * 2;
+    vector<int> numbers;
+    for (int i = 1; i <= numsize; ++i) {
+        numbers.push_back(i); // 1부터 numsize만큼 넣는다.
+    }
     // 난수 생성 엔진 초기화
     // 난수 생성 엔진 객체 g
     random_device rd;
@@ -121,8 +127,8 @@ void PrintFloorOut(vector<Student>& students, int floor, int &turn) {
     // 현재 층수 설정
     int current_floor = 1;
     while (true) {
-        // 12층을 초과하더라도 1층에 있던 학생이 13층으로 올라가는 방식
-        int index = (current_floor - 1) % 12; // 0부터 시작하는 인덱스
+        // 예를 들어 학생 6명일 때 12층을 초과하더라도 1층에 있던 학생이 13층으로 올라가는 방식
+        int index = (current_floor - 1) % (students.size() * 2); // 0부터 시작하는 인덱스
         auto [assignedFloor, name] = floorAssignments[index];
 
         cout << name << ": " << current_floor << " floor" << endl;
@@ -250,6 +256,7 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
         }
         // 마지막에 남은 숫자 numbers벡터에 push_back해주기
         if (!temp.empty()) {
+            // stoi함수로 문자열 int로 바꿔줌
             numbers.push_back(stoi(temp));
         }
 
@@ -257,6 +264,7 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
         // 3개보다 많이 숫자 부를 경우 탈락하고 술마시기
         if (numbers.size() < 1 || numbers.size() > 3) {
             cout << "Fool shot! Fool shot! You can only call 1 to 3 numbers!" << endl;
+            // 술 카운트 증가 후 리턴
             students[turn].IncGlasses();
             return;
         }
@@ -266,6 +274,7 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
             // 현재 숫자에 대응하는 알맞은 숫자 말 못했으면 탈락시킨다.
             if (num != current_number) {
                 cout << "Fool shot! Fool shot! Wrong number!" << endl;
+                // 술 카운트 증가 후 리턴
                 students[turn].IncGlasses();
                 return;
             }
@@ -273,6 +282,7 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
             // 31을 외치게 될 경우 탈락시킨다.
             if (current_number >= 31) {
                 cout << endl << "Game over! " << current_player << " lost!" << endl;
+                // 술 카운트 증가 후 리턴
                 students[turn].IncGlasses();
                 return;
             }
