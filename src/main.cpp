@@ -226,7 +226,11 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
         students[turn].IncGlasses();
         return;
     }
-    int current_number = 1; // 시작 숫자
+    
+    // 시작 숫자 초기화
+    int current_number = 1;
+
+    // while 루프 시작
     while (true) {
         // 현재 플레이어 정보
         string current_player = students[turn].GetName();
@@ -238,19 +242,24 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
         getline(cin >> ws, input);
 
         // 넘버 벡터 선언
+        // 매 while루프마다 numbers 벡터는 초기화됨
         vector<int> numbers;
         string temp = "";
-        // 반복자 사용 
+
+        // iterator 사용
         // ex) "1 2 3"을 ("1", " ", "2", " ", "3")으로 분리
-        for (char ch : input) {
-            // ch가 " "이면 temp에 들어있는 숫자 까지 numbers벡터에 push하고 temp를 clear한다.
+        for (auto it = input.begin(); it != input.end(); ++it) {
+            char ch = *it; // iterator가 가리키는 현재 문자
+
+            // ch가 ' '이면 temp에 들어있는 숫자를 numbers 벡터에 push하고 temp를 clear한다.
             if (ch == ' ') {
                 if (!temp.empty()) {
-                    numbers.push_back(stoi(temp));
+                    numbers.push_back(stoi(temp)); // temp 문자열을 정수로 변환 후 push
                     temp.clear();
                 }
+            }
             // ch에 "숫자"가 들어있으면 temp에 추가
-            } else {
+            else {
                 temp += ch;
             }
         }
@@ -269,8 +278,11 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
             return;
         }
 
-        // 
-        for (int num : numbers) {
+        // iterator사용
+        // numbers 벡터안의 숫자에 순서대로 접근
+        for (auto it = numbers.begin(); it != numbers.end(); ++it) {
+            int num = *it; // iterator가 가리키는 값을 가져옴
+
             // 현재 숫자에 대응하는 알맞은 숫자 말 못했으면 탈락시킨다.
             if (num != current_number) {
                 cout << "Fool shot! Fool shot! Wrong number!" << endl;
@@ -286,6 +298,7 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
                 students[turn].IncGlasses();
                 return;
             }
+
             // current_number 증가
             current_number++;
         }
