@@ -4,6 +4,7 @@
 #include "student.h"
 #include <algorithm>
 #include <random>
+#include <stdexcept>
 using namespace std;
 
 void APT(vector<Student>& students,int &turn);
@@ -40,7 +41,8 @@ int main(){
         "Number 33: CC\n " << endl;
     // BaskinRobbins31게임 설명 출력
     cout << "3. BaskinRobbins31 game: In this game, participants take turns and count sequentially from 1 to 31. On each turn, \n "
-        "a player can call out between 1 to 3 consecutive numbers. The player who has to say 31 loses the game.\n" << endl;
+        "a player can call out between 1 to 3 consecutive numbers. Input numbers split based on spaces.\n "
+        "The player who has to say number 31 loses the game.\n" << endl;
 
     int turn = 0;
     bool game_running=true;
@@ -164,7 +166,7 @@ void ThreeSixNine(vector<Student>& students, int &turn) {
     cin >> direction;
     // 잘못된 방향을 말할 경우 술을 마시고 다시 게임 시작하도록 설정
     if (direction != "right" && direction != "left"){
-        cout << "Fool shot! Fool shot! One more time!" << endl;
+        cout << "Fool shot! Fool shot! Wrong direction! One more time!" << endl;
         // 방향 이상하게 말했으면 술 마시기
         students[turn].IncGlasses();
         return;
@@ -213,7 +215,7 @@ void ThreeSixNine(vector<Student>& students, int &turn) {
 // 베스킨라빈스31게임 구현
 void BaskinRobbins31(vector<Student>& students, int &turn){
     // 인트로 출력
-    cout << "Baskin Robbins thirty one! Baskin Robbins thirty one!" << endl;
+    cout << "Baskin Robbins thirty-one! Baskin Robbins thirty-one!" << endl;
     // 방향 설정    
     string direction;
     // 방향 입력 (오른쪽이나 왼쪽)
@@ -221,7 +223,7 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
     cin >> direction;
     // 잘못된 방향을 말할 경우 술을 마시고 다시 게임 시작하도록 설정
     if (direction != "right" && direction != "left"){
-        cout << "Fool shot! Fool shot! One more time!" << endl;
+        cout << "Fool shot! Fool shot! Wrong direction! One more time!" << endl;
         // 방향 이상하게 말했으면 술 마시기
         students[turn].IncGlasses();
         return;
@@ -246,27 +248,42 @@ void BaskinRobbins31(vector<Student>& students, int &turn){
         vector<int> numbers;
         string temp = "";
 
-        // iterator 사용
-        // ex) "1 2 3"을 ("1", " ", "2", " ", "3")으로 분리
-        for (auto it = input.begin(); it != input.end(); ++it) {
-            char ch = *it; // iterator가 가리키는 현재 문자
+        // try - catch문 사용
+        try{
+            // iterator 사용
+            // ex) "1 2 3"을 ("1", " ", "2", " ", "3")으로 분리
+            for (auto it = input.begin(); it != input.end(); ++it) {
+                char ch = *it; // iterator가 가리키는 현재 문자
 
-            // ch가 ' '이면 temp에 들어있는 숫자를 numbers 벡터에 push하고 temp를 clear한다.
-            if (ch == ' ') {
-                if (!temp.empty()) {
-                    numbers.push_back(stoi(temp)); // temp 문자열을 정수로 변환 후 push
-                    temp.clear();
+                // ch가 ' '이면 temp에 들어있는 숫자를 numbers 벡터에 push하고 temp를 clear한다.
+                if (ch == ' ') {
+                    if (!temp.empty()) {
+                        numbers.push_back(stoi(temp)); // temp 문자열을 정수로 변환 후 push
+                        temp.clear();
+                    }
+                }
+                // ch에 "숫자"가 들어있으면 temp에 추가
+                else {
+                    temp += ch;
                 }
             }
-            // ch에 "숫자"가 들어있으면 temp에 추가
-            else {
-                temp += ch;
+            // 마지막에 남은 숫자 numbers벡터에 push_back해주기
+            if (!temp.empty()) {
+                // stoi함수로 문자열 int로 바꿔줌
+                numbers.push_back(stoi(temp));
             }
-        }
-        // 마지막에 남은 숫자 numbers벡터에 push_back해주기
-        if (!temp.empty()) {
-            // stoi함수로 문자열 int로 바꿔줌
-            numbers.push_back(stoi(temp));
+            
+        // catch 숫자가 아닌 문자열 입력받는 경우
+        } catch (const invalid_argument& e) {
+            cout << "Fool shot! Fool shot! Invalid input detected!" << endl;
+            students[turn].IncGlasses();
+            return;
+
+        // catch 범위 초과하는 숫자를 입력한 경우
+        } catch (const out_of_range& e) {
+            cout << "Fool shot! Fool shot! Number out of range!" << endl;
+            students[turn].IncGlasses();
+            return;
         }
 
         // 1 ~ 3개의 숫자만 입력했는지 확인
