@@ -19,6 +19,7 @@ public:
     Student(string name, int tolerance);
     string GetName();
     int GetTolerance();
+    int GetGlasses();
     void IncGlasses();
 
     void SetAptNum(int n1, int n2);

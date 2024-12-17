@@ -16,6 +16,10 @@ string Student::GetName(){
 }
 // 주량 출력하는 함수
 int Student::GetTolerance(){
+    return tolerance;
+}
+// 술잔 출력하는 함수
+int Student::GetGlasses(){
     return glasses;
 }
 // 한잔씩 마시게 하고, 현재까지 마신 잔 수 출력.

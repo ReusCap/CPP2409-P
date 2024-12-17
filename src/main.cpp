@@ -17,13 +17,13 @@ int main(){
     // 벡터로 학생 객체를 저장
     // 벡터 인덱스를 자리 배정으로 선정
     vector<Student> students={
-        Student("Jenny",3), // 제니
-        Student("Lisa",5),  // 리사
-        Student("Jisoo",7), // 지수
-        Student("Rose",2),  // 로제
-        Student("Bruno",3), // 브루노 마스
-        Student("Taeeun",4), // 태은
-        Student("Misoo",5)  // 미수
+        Student("Jenny",2), // 제니
+        Student("Lisa",3),  // 리사
+        Student("Jisoo",3), // 지수
+        Student("Rose",4),  // 로제
+        Student("Bruno",2), // 브루노 마스
+        Student("Taeeun",3), // 태은
+        Student("Misoo",1)  // 미수
     };
     // 게임 설명 출력
     cout << "\n<Game Select>" << endl;
@@ -64,7 +64,16 @@ int main(){
             // "병신샷~ 병신샷~ 다시!"라고 하면서 말실수 한 사람이 술 한잔 마시고 다시 게임 골라서 시작.
             cout << "Fool shot! Fool shot! One more time!" << endl;
             students[turn].IncGlasses();
-            continue;
+        }
+
+        // 벡터 순회해서 혹시 주량 초과한 사람있는지 확인
+        for (auto& student : students) {
+            // 주량과 마신 잔 수가 일치하는지 확인
+            if (student.GetTolerance() == student.GetGlasses()) {
+                cout << student.GetName() << " got completely drunk and threw up!! Game Over..." << endl;
+                game_running = false; // 게임 종료
+                break;
+            }
         }
     }
     
