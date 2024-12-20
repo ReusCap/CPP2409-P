@@ -88,18 +88,36 @@ int main(){
 // 아파트게임 함수
 void APT(vector<Student>& students, int &turn){
     int floor;
+    string input;
     // 인트로 출력 : "아파트~ 아파트~ 아파트~ 아파트~"
     cout << "APT~ APT~ APT~ APT~" << endl;
-     do {
-        // 몇층?(1~20층까지)
-        // 20층 이상이면 출력이 너무 많을거 같아서 임의로 설정
-        cout << "Which floor?(1 to 20 floors only): ";
-        cin >> floor;
+    // try-catch문으로 
+    do {
+        try {
+            // 몇층?(1~20층까지)
+            cout << "Which floor?(1 to 20 floors only): ";
+            cin >> input;
 
-        // 입력값 검증
-        if (floor < 1 || floor > 20) {
+            // 문자열을 정수로 변환
+            floor = stoi(input);
+
+            // 범위 검증
+            if (floor < 1 || floor > 20) {
+                throw out_of_range("Floor out of valid range");
+            }
+        // 문자열 들어오는 경우 예외처리
+        } catch (const invalid_argument& e) {
+            cout << "Fool shot! Fool shot! Invalid input!!" << endl;
+            students[turn].IncGlasses();
+            continue;
+        // 1~20층 범위 벗어난 입력인 경우 예외처리
+        } catch (const out_of_range& e) {
+            // 범위를 벗어난 입력 처리
             cout << "Please enter a floor between 1 and 20." << endl;
+            // 재입력하게 함
+            continue;
         }
+
     } while (floor < 1 || floor > 20);
     
     // 인당 숫자 2개씩 할당 받아야 하니까 학생 수 2배만큼 숫자 vector에 생성
