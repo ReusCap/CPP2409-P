@@ -114,7 +114,6 @@ void APT(vector<Student>& students, int &turn){
         } catch (const invalid_argument& e) {
             cout << "Fool shot! Fool shot! Invalid input!!" << endl;
             students[turn].IncGlasses();
-            continue;
         // 1~20층 범위 벗어난 입력인 경우 예외처리
         } catch (const out_of_range& e) {
             // 범위를 벗어난 입력 처리
