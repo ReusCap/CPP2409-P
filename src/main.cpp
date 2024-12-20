@@ -76,11 +76,16 @@ int main(){
             // 주량과 마신 잔 수가 일치하는지 확인
             if (student.GetTolerance() == student.GetGlasses()) {
                 // "OO가 만취하고 토했어!!"라고 출력하고 게임 종료한다. 
-                cout << student.GetName() << " got completely drunk and threw up!! Game Over..." << endl;
+                cout << student.GetName() << " got completely drunk and threw up!! Game Over...\n" << endl;
                 game_running = false; // 게임 종료
                 break;
             }
         }
+    }
+    // 마지막에 다들 얼마나 마셨는지 출력
+    cout << "Total Glasses" << endl;
+    for (auto& student : students) {
+        cout << student.GetName() << ": " << student.GetGlasses() << " glasses" << endl;
     }
     
     return 0;
