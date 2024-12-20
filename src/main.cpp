@@ -16,6 +16,7 @@ int FindNameIndex(vector<Student>& students, const string& name);
 int main(){
     // 벡터로 학생 객체를 저장
     // 벡터 인덱스를 자리 배정으로 선정
+    // 이름과 주량을 입력
     vector<Student> students={
         Student("Jenny",2), // 제니
         Student("Lisa",3),  // 리사
@@ -43,8 +44,11 @@ int main(){
     cout << "3. BaskinRobbins31 game: In this game, participants take turns and count sequentially from 1 to 31. On each turn, \n "
         "a player can call out between 1 to 3 consecutive numbers. Input numbers split based on spaces.\n "
         "The player who has to say number 31 loses the game.\n" << endl;
-
+    cout << "You can input 3Games" << endl;
+    cout << "1: APT   2: 369   3: BaskinRobbins31\n" << endl;
+    // 차례변수 생성
     int turn = 0;
+    // while문 flag변수 생성
     bool game_running=true;
     while(game_running){
         string choice;
@@ -54,6 +58,7 @@ int main(){
         cout << students[turn].GetName() << "'s choice: ";
         cin >> choice;
 
+        // 게임 선택 입력 확인 (APT, 369, BaskinRobbins31) 그 외 입력 시 술마심
         if (choice == "APT") {
             APT(students, turn);       // 아파트 게임 시작
         } else if (choice == "369") {
@@ -70,6 +75,7 @@ int main(){
         for (auto& student : students) {
             // 주량과 마신 잔 수가 일치하는지 확인
             if (student.GetTolerance() == student.GetGlasses()) {
+                // "OO가 만취하고 토했어!!"라고 출력하고 게임 종료한다. 
                 cout << student.GetName() << " got completely drunk and threw up!! Game Over..." << endl;
                 game_running = false; // 게임 종료
                 break;
@@ -79,12 +85,15 @@ int main(){
     
     return 0;
 }
-
+// 아파트게임 함수
 void APT(vector<Student>& students, int &turn){
     int floor;
-    cout << "APT~ APT~ APT~ APT~" << endl;      // 인트로 : 아파트~ 아파트~ 아파트~ 아파트~
+    // 인트로 출력 : "아파트~ 아파트~ 아파트~ 아파트~"
+    cout << "APT~ APT~ APT~ APT~" << endl;
      do {
-        cout << "Which floor?(1 to 20 floors only): "; // 몇층?(1~20층까지)
+        // 몇층?(1~20층까지)
+        // 20층 이상이면 출력이 너무 많을거 같아서 임의로 설정
+        cout << "Which floor?(1 to 20 floors only): ";
         cin >> floor;
 
         // 입력값 검증
@@ -96,9 +105,13 @@ void APT(vector<Student>& students, int &turn){
     // 인당 숫자 2개씩 할당 받아야 하니까 학생 수 2배만큼 숫자 vector에 생성
     int size = students.size();
     int numsize = size * 2;
+    
+    // numbers 벡터 설정
     vector<int> numbers;
+
     for (int i = 1; i <= numsize; ++i) {
-        numbers.push_back(i); // 1부터 numsize만큼 넣는다.
+        // 1부터 numsize만큼 넣는다.
+        numbers.push_back(i);
     }
     // 난수 생성 엔진 초기화
     // 난수 생성 엔진 객체 g
@@ -223,7 +236,7 @@ void ThreeSixNine(vector<Student>& students, int &turn) {
 }
 // 베스킨라빈스31게임 구현
 void BaskinRobbins31(vector<Student>& students, int &turn){
-    // 인트로 출력
+    // 인트로 출력 : "베스킨 라빈스 31! 베스킨 라빈스 31! "
     cout << "Baskin Robbins thirty-one! Baskin Robbins thirty-one!" << endl;
     // 방향 설정    
     string direction;

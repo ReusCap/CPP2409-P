@@ -22,7 +22,7 @@ int Student::GetTolerance(){
 int Student::GetGlasses(){
     return glasses;
 }
-// 한잔씩 마시게 하고, 현재까지 마신 잔 수 출력.
+// 한잔씩 마시게 하고, 현재까지 마신 잔 수 출력
 void Student::IncGlasses(){
     glasses+=1;
     cout << "have a shot"  << endl;
